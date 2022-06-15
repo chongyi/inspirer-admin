@@ -1,12 +1,42 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-import { getToken } from './request';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAsync, selectIsLogin } from './app/application/userSessionSlice';
+import { useLocation, useNavigate } from 'react-router-dom'
+import qs from 'qs'
 
 const Login = () => {
-    getToken()
+    const dispatch = useDispatch();
+    const [tryRedirect, setTryRedirect] = useState(false)
+    const isLogin = useSelector(selectIsLogin)
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    const onLoginFormCommit = values => {
+        // 触发登录后才会尝试重定向
+        setTryRedirect(true)
+
+        dispatch(loginAsync(values))
+    }
+
+    useEffect(() => {
+        if (isLogin && tryRedirect) {
+            if (location.search) {
+                const { to } = qs.parse(location.search, { ignoreQueryPrefix: true })
+
+                if (to) {
+                    navigate(to)
+                    return;
+                }
+            }
+
+            navigate('/')
+        }
+    }, [isLogin])
 
     return <div className="h-screen w-screen flex justify-center items-center bg-gradient-to-br from-white to-slate-300">
         <div className="relative">
-            <div className="text-center absolute w-full" style={{marginTop: -110}}>
+            <div className="text-center absolute w-full" style={{ marginTop: -110 }}>
                 <img src="/logo.png" alt="logo" className="h-16 m-auto" />
                 <div className="font-bold text-2xl">INSPIRER</div>
             </div>
@@ -16,6 +46,7 @@ const Login = () => {
                     initialValues={{ remember: true }}
                     autoComplete="off"
                     layout='vertical'
+                    onFinish={onLoginFormCommit}
                 >
                     <Form.Item
                         label="账号"
