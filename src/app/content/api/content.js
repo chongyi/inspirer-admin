@@ -8,3 +8,7 @@ export async function getContentList(page = 1, params = {}) {
         }
     })
 }
+
+export async function getContent(id) {
+    return get(`/api/security/content/${id}`)
+}
