@@ -9,6 +9,7 @@ import Login from './Login';
 import ContentApplication from './pages/Content';
 import ContentList from './pages/Content/ContentList';
 import SystemApplication from './pages/System';
+import ContentEdit from './pages/Content/ContentEdit';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='' element={<Navigate to='/content' replace />} />
         <Route path='content' element={<ContentApplication />}>
           <Route path='' element={<ContentList />} />
+          <Route path=':contentId' element={<ContentEdit />} />
         </Route>
         <Route path='system' element={<SystemApplication />} />
       </Route>
