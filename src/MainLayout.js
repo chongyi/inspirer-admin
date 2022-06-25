@@ -40,13 +40,17 @@ const MainLayout = () => {
         }
     }, [])
 
+    const onMenuClick = useCallback((item) => {
+        navigate(item.item.props.link)
+    }, [])
+
     return <Layout className='h-screen'>
         <Header className='bg-white px-0 shadow border-b fixed w-full z-20'>
             <div className='float-left px-4 flex gap-1 items-center'>
                 <img src="/logo.png" alt='logo' className='h-8' />
                 <span className='font-bold'>INSPIRER</span>
             </div>
-            <Menu className='border-0' mode="horizontal" defaultSelectedKeys={['content']} items={headerMenus} />
+            <Menu className='border-0' mode="horizontal" defaultSelectedKeys={['content']} items={headerMenus} onClick={onMenuClick} />
         </Header>
         <Outlet />
     </Layout>

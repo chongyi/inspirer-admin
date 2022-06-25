@@ -35,6 +35,14 @@ export const post = async (url, options = {}) => {
     })
 }
 
+export const put = async (url, options = {}) => {
+    return await request({
+        url,
+        method: 'put',
+        ...options
+    })
+}
+
 export const get = async (url, options = {}) => {
     return await request({
         url,

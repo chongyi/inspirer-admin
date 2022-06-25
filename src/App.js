@@ -15,7 +15,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<MainLayout />}>
-        <Route path='' element={<Navigate to='/content' replace />} />
+        <Route path='' element={<Home />} />
         <Route path='content' element={<ContentApplication />}>
           <Route path='' element={<ContentList />} />
           <Route path=':contentId' element={<ContentEdit />} />
