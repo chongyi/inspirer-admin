@@ -3,11 +3,10 @@ import MdEditor from 'md-editor-rt';
 import 'md-editor-rt/lib/style.css';
 import './style.css'
 
-const ContentEditor = ({ data, ...props }) => {
-    const [content, setContent] = useState(data)
+const ContentEditor = ({ content, onChange, ...props }) => {
     return <MdEditor
         modelValue={content}
-        onChange={setContent}
+        onChange={onChange}
         {...props}
     />
 }
