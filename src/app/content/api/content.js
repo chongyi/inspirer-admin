@@ -1,9 +1,9 @@
 import { get, put } from "../../../request";
 
-export async function getContentList(page = 1, params = {}) {
+export async function getContentList(pagination, params = {}) {
     return get('/api/security/content', {
         params: {
-            page,
+            ...pagination,
             ...params
         }
     })

@@ -14,7 +14,11 @@ const ContentList = () => {
 
     const onTableChange = (pagination, _filters, _sorter, { action }) => {
         if (action == 'paginate') {
-            dispatch(loadContentListAsync(pagination.current))
+            console.log(pagination)
+            dispatch(loadContentListAsync({
+                page: pagination.current,
+                page_size: pagination.pageSize,
+            }))
         }
     }
 

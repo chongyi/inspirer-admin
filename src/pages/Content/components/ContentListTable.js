@@ -1,10 +1,18 @@
 import Table from "../../../components/Table"
 import { Link } from 'react-router-dom'
+import { useState } from "react"
 
 const columns = [
     {
-        dataIndex: 'id',
-        title: 'ID',
+        title: '基本信息',
+        key: 'meta',
+        render: (_, record) => (
+            <>
+                <div><span className="font-bold">{record.title}</span></div>
+                <div className="italic text-xs"><span>ID</span> <span className="text-gray-400">{record.id}</span></div>
+                {record.name && <div className="italic text-xs"><span>名称</span> <span className="text-gray-400">{record.name}</span></div>}
+            </>
+        )
     },
     {
         dataIndex: 'content_type',
@@ -17,14 +25,6 @@ const columns = [
                     return '页面'
             }
         }
-    },
-    {
-        dataIndex: 'name',
-        title: '名称',
-    },
-    {
-        dataIndex: 'title',
-        title: '标题',
     },
     {
         key: 'datetime',
@@ -48,10 +48,23 @@ const columns = [
 ]
 
 const ContentListTable = ({ data, ...props }) => {
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+    const onSelectChange = (newSelectedRowKeys) => {
+        setSelectedRowKeys(newSelectedRowKeys);
+    };
+
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: onSelectChange,
+    };
+
     return <Table
         rowKey='id'
         data={data}
+        rowSelection={rowSelection}
         columns={columns}
+        size="middle"
         {...props}
     />
 }

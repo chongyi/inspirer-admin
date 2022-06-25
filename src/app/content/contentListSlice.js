@@ -13,8 +13,8 @@ const initialState = {
 
 export const loadContentListAsync = createAsyncThunk(
     'contentList/loadContentList',
-    async (...payload) => {
-        const response = await getContentList(...payload);
+    async (pagination) => {
+        const response = await getContentList(pagination);
         return response.data;
     }
 );
