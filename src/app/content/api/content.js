@@ -1,7 +1,7 @@
-import { get, put } from "../../../request";
+import { get, post, put } from "../../../request";
 
 export async function getContentList(pagination, params = {}) {
-    return get('/api/security/content', {
+    return await get('/api/security/content', {
         params: {
             ...pagination,
             ...params
@@ -10,11 +10,21 @@ export async function getContentList(pagination, params = {}) {
 }
 
 export async function getContent(id) {
-    return get(`/api/security/content/${id}`)
+    return await get(`/api/security/content/${id}`)
 }
 
 export async function updateContent(id, data) {
-    return put(`/api/security/content/${id}`, {
+    return await put(`/api/security/content/${id}`, {
         data
     })
+}
+
+export async function createContent(data) {
+    return await post('/api/security/content', {
+        data
+    })
+}
+
+export async function getContentServiceConfig() {
+    return await get('/api/security/content-service-config')
 }

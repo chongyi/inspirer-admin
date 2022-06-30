@@ -3,7 +3,7 @@ import ApplicationLayout from "../ApplicationLayout"
 const ContentApplication = () => {
     return (
         <ApplicationLayout menuItems={[
-            { key: '/content', label: '列表' }
+            { key: '/content/list', label: '列表' }
         ]} />
     )
 }
