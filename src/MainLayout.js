@@ -50,7 +50,7 @@ const MainLayout = () => {
                 <img src="/logo.png" alt='logo' className='h-8' />
                 <span className='font-bold'>INSPIRER</span>
             </div>
-            <Menu className='border-0' mode="horizontal" defaultSelectedKeys={['content']} items={headerMenus} onClick={onMenuClick} />
+            <Menu className='border-0' mode="horizontal" defaultSelectedKeys={['home']} items={headerMenus} onClick={onMenuClick} />
         </Header>
         <Outlet />
     </Layout>

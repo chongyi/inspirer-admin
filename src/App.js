@@ -17,8 +17,9 @@ function App() {
       <Route path='/' element={<MainLayout />}>
         <Route path='' element={<Home />} />
         <Route path='content' element={<ContentApplication />}>
-          <Route path='' element={<ContentList />} />
-          <Route path=':contentId' element={<ContentEdit />} />
+          <Route path='list' element={<ContentList />} />
+          <Route path='create' element={<ContentEdit />} />
+          <Route path='edit/:contentId' element={<ContentEdit mode="edit" />} />
         </Route>
         <Route path='system' element={<SystemApplication />} />
       </Route>
