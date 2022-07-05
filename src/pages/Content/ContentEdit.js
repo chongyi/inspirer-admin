@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, Modal } from "antd"
+import { Button, Form, Input, Modal, message } from "antd"
 import { data } from "autoprefixer"
 import { useCallback, useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
@@ -10,6 +10,7 @@ import ContentEditor from "./components/ContentEditor"
 const { TextArea } = Input
 
 const ContentEdit = ({ mode = 'create' }) => {
+    const [currentMode, setCurrentMode] = useState(mode)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [form] = Form.useForm()
@@ -20,6 +21,10 @@ const ContentEdit = ({ mode = 'create' }) => {
         description: '',
         name: '',
         content_type: 1,
+        entity: {
+            type: 'post',
+            data: ''
+        }
     })
     const [editorData, setEditorData] = useState('')
     const { config } = useSelector(selectContentConfigState)
@@ -32,13 +37,13 @@ const ContentEdit = ({ mode = 'create' }) => {
     }, [])
 
     const submitContent = useCallback(async (id, data) => {
-        if (mode == 'edit') {
+        if (currentMode == 'edit') {
             return await updateContent(id, data);
         } else {
             const res = await createContent(data)
             return Promise.resolve(res.data)
         }
-    }, [])
+    }, [currentMode])
 
     const onCancel = useCallback(() => {
         // 直接返回
@@ -47,13 +52,15 @@ const ContentEdit = ({ mode = 'create' }) => {
 
     useEffect(() => {
         // 只有 edit 模式会进行内容读取
-        if (mode == 'edit') {
+        if (currentMode == 'edit') {
             fetchContent(contentId).then(data => {
                 setContentData(data)
                 setEditorData(data.entity.data)
+
+                form.resetFields()
             })
         }
-    }, [contentId])
+    }, [contentId, currentMode])
 
     useEffect(() => {
         if (!config) {
@@ -71,7 +78,7 @@ const ContentEdit = ({ mode = 'create' }) => {
             }
         }
 
-        if (mode == 'create') {
+        if (currentMode == 'create') {
             submitData.entity = {
                 type: 'post',
                 data: editorData,
@@ -88,13 +95,16 @@ const ContentEdit = ({ mode = 'create' }) => {
         if (Object.keys(submitData).length == 0) {
             setCommiting(false)
             console.log('No change')
+
+            message.info("没有内容变更，无需保存")
         } else {
             submitContent(contentId, submitData).then(res => {
                 setCommiting(false)
                 Modal.success({
                     content: "保存成功",
                     afterClose: () => {
-                        if (mode == 'create') {
+                        if (currentMode == 'create') {
+                            setCurrentMode('edit')
                             // 直接跳转即可
                             navigate(`/content/edit/${res.id}`, { replace: true })
                         } else {
