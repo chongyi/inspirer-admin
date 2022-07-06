@@ -1,4 +1,4 @@
-import { get, post, put } from "../../../request";
+import { get, post, put, del } from "../../../request";
 
 export async function getContentList(pagination, params = {}) {
     return await get('/api/security/content', {
@@ -27,4 +27,12 @@ export async function createContent(data) {
 
 export async function getContentServiceConfig() {
     return await get('/api/security/content-service-config')
+}
+
+export async function publishContent(id) {
+    return await post(`/api/security/content/${id}/publish`)
+}
+
+export async function unpublishContent(id) {
+    return await del(`/api/security/content/${id}/publish`)
 }
