@@ -50,4 +50,12 @@ export const get = async (url, options = {}) => {
     })
 }
 
+export const del = async (url, options = {}) => {
+    return await request({
+        url,
+        method: 'delete',
+        ...options
+    })
+}
+
 export default request
