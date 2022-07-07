@@ -1,5 +1,5 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAsync, selectIsLogin } from './app/application/userSessionSlice';
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -12,25 +12,33 @@ const Login = () => {
     const location = useLocation()
     const navigate = useNavigate()
 
-    const onLoginFormCommit = values => {
+    const redirect = useCallback(() => {
+        if (location.search) {
+            const { to } = qs.parse(location.search, { ignoreQueryPrefix: true })
+
+            if (to) {
+                navigate(to)
+                return;
+            }
+        }
+
+        navigate('/')
+    }, [location])
+
+    const onLoginFormCommit = useCallback(values => {
+        if (isLogin) {
+            redirect()
+        }
+
         // 触发登录后才会尝试重定向
         setTryRedirect(true)
 
         dispatch(loginAsync(values))
-    }
+    }, [isLogin])
 
     useEffect(() => {
         if (isLogin && tryRedirect) {
-            if (location.search) {
-                const { to } = qs.parse(location.search, { ignoreQueryPrefix: true })
-
-                if (to) {
-                    navigate(to)
-                    return;
-                }
-            }
-
-            navigate('/')
+            redirect()
         }
     }, [isLogin])
 

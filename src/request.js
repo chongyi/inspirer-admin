@@ -1,6 +1,7 @@
 import axios from "axios"
 import { store } from "./app/store"
 import { message } from 'antd'
+import { logout } from "./app/application/userSessionSlice"
 
 const request = axios.create()
 
@@ -18,6 +19,7 @@ request.interceptors.response.use(resp => resp, error => {
     if (error.response) {
         switch (error.response.status) {
             case 401:
+                store.dispatch(logout())
                 window.location.href = '/login'
                 break;
 
