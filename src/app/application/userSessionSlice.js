@@ -38,7 +38,9 @@ export const userSessionSlice = createSlice({
     name: 'userSession',
     initialState,
     reducers: {
-
+        logout: (state) => {
+            state.isLogin = false
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -53,7 +55,7 @@ export const userSessionSlice = createSlice({
     },
 });
 
-export const {  } = userSessionSlice.actions;
+export const { logout } = userSessionSlice.actions;
 
 export const selectIsLogin = (state) => state.userSession.isLogin;
 
