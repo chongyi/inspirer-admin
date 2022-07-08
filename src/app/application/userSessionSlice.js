@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getUserProfile, login } from './api/user';
+import userAPI from './api/user';
 
 const initialState = {
     token: sessionStorage.accessToken || localStorage.accessToken || null,
@@ -15,7 +15,7 @@ const initialState = {
 export const loginAsync = createAsyncThunk(
     'userSession/login',
     async (payload) => {
-        const response = await login(payload);
+        const response = await userAPI.login(payload);
 
         // 保存本地
         if (response.data.access_token) {
@@ -29,7 +29,7 @@ export const loginAsync = createAsyncThunk(
 export const updateProfileAsync = createAsyncThunk(
     'userSession/updateProfile',
     async () => {
-        const response = await getUserProfile()
+        const response = await userAPI.getUserProfile()
         return response.data
     }
 )
