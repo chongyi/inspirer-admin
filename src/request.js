@@ -20,6 +20,8 @@ request.interceptors.response.use(resp => resp, error => {
         switch (error.response.status) {
             case 401:
                 store.dispatch(logout())
+                delete sessionStorage.accessToken
+                delete localStorage.accessToken
                 window.location.href = '/login'
                 break;
 
