@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useState } from "react"
 import { Badge, Button } from "antd"
 
-const ContentListTable = ({ data, ...props }) => {
+const ContentListTable = ({ data, onChangePublishState, ...props }) => {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
     const onSelectChange = (newSelectedRowKeys) => {
@@ -25,6 +25,13 @@ const ContentListTable = ({ data, ...props }) => {
                     <div className="italic text-xs"><span>ID</span> <span className="text-gray-400">{record.id}</span></div>
                     {record.name && <div className="italic text-xs"><span>名称</span> <span className="text-gray-400">{record.name}</span></div>}
                 </>
+            )
+        },
+        {
+            key: 'owner',
+            title: '所有人',
+            render: (_, record) => (
+                <span>{record.owner ? record.owner.nickname : '未知'}</span>
             )
         },
         {
@@ -65,6 +72,14 @@ const ContentListTable = ({ data, ...props }) => {
             render: (_, record) => (
                 <>
                     <Link to={`/content/edit/${record.id}`}>编辑</Link>
+                    {
+                        onChangePublishState && (
+                            <>
+                                {record.is_publish && <Button type="link" onClick={() => onChangePublishState(record.id, false)}>取消发布</Button>}
+                                {!record.is_publish && <Button type="link" onClick={() => onChangePublishState(record.id, true)}>发布</Button>}
+                            </>
+                        )
+                    }
                 </>
             )
         }

@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, message } from "antd"
 import { data } from "autoprefixer"
 import { useCallback, useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { getContent, updateContent, createContent } from "../../app/content/api/content"
+import contentAPI from "../../app/content/api/content"
 import { useSelector, useDispatch } from "react-redux"
 import { loadContentServiceConfigAsync, selectContentConfigState } from "../../app/content/contentConfigSlice"
 import ContentEditor from "./components/ContentEditor"
@@ -31,16 +31,16 @@ const ContentEdit = ({ mode = 'create' }) => {
     const [commiting, setCommiting] = useState(false)
 
     const fetchContent = useCallback(async (id) => {
-        const res = await getContent(id)
+        const res = await contentAPI.getContent(id)
 
         return res.data
     }, [])
 
     const submitContent = useCallback(async (id, data) => {
         if (currentMode == 'edit') {
-            return await updateContent(id, data);
+            return await contentAPI.updateContent(id, data);
         } else {
-            const res = await createContent(data)
+            const res = await contentAPI.createContent(data)
             return Promise.resolve(res.data)
         }
     }, [currentMode])

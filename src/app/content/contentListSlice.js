@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getContentList } from './api/content';
+import contentAPI from './api/content';
 
 const initialState = {
     data: {
@@ -14,10 +14,19 @@ const initialState = {
 export const loadContentListAsync = createAsyncThunk(
     'contentList/loadContentList',
     async (pagination) => {
-        const response = await getContentList(pagination);
+        const response = await contentAPI.getContentList(pagination);
         return response.data;
     }
 );
+
+export const refreshContentListAsync = createAsyncThunk(
+    'contentList/refreshContentList',
+    async (_payload, thunkAPI) => {
+        const { page, page_size } = thunkAPI.getState().contentList.data
+        const response = await contentAPI.getContentList({ page, page_size })
+        return response.data;
+    }
+)
 
 export const contentListSlice = createSlice({
     name: 'contentList',
@@ -32,6 +41,16 @@ export const contentListSlice = createSlice({
                 state.loading = false
             })
             .addCase(loadContentListAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.data = action.payload
+            })
+            .addCase(refreshContentListAsync.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(refreshContentListAsync.rejected, (state) => {
+                state.loading = true
+            })
+            .addCase(refreshContentListAsync.fulfilled, (state, action) => {
                 state.loading = false
                 state.data = action.payload
             })

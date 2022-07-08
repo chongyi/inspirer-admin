@@ -36,3 +36,13 @@ export async function publishContent(id) {
 export async function unpublishContent(id) {
     return await del(`/api/security/content/${id}/publish`)
 }
+
+export default {
+    getContent,
+    getContentList,
+    updateContent,
+    createContent,
+    getContentServiceConfig,
+    publishContent,
+    unpublishContent,
+}

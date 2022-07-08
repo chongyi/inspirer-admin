@@ -9,3 +9,8 @@ export async function login(payload) {
         data: payload
     })
 }
+
+export default {
+    getUserProfile,
+    login
+}
