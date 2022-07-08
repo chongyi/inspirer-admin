@@ -45,9 +45,13 @@ const ContentList = () => {
 
     return <>
         <div className="flex flex-col gap-4">
-            <div className="flex gap-2">
-                <Button type="primary" onClick={() => navigate('/content/create')} >创建内容</Button>
-                <Button icon={<ReloadOutlined />} onClick={() => refreshContentList()} />
+            <div className="flex justify-between">
+                <div>
+                    <Button icon={<ReloadOutlined />} onClick={() => refreshContentList()} />
+                </div>
+                <div>
+                    <Button type="primary" onClick={() => navigate('/content/create')} >创建内容</Button>
+                </div>
             </div>
             <div>
                 <ContentListTable onChange={onTableChange} onChangePublishState={onChangePublishState} {...list} />

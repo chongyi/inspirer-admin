@@ -30,9 +30,11 @@ const MainLayout = () => {
         }
 
         console.log('register profile update timer')
+
+        // 设置过期检查，每小时检查一次
         const timer = setInterval(() => {
             dispatch(updateProfileAsync())
-        }, 60 * 1000)
+        }, 60 * 1000 * 60)
 
         return () => {
             console.log('clear profile update timer')
