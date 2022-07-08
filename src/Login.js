@@ -28,6 +28,7 @@ const Login = () => {
     const onLoginFormCommit = useCallback(values => {
         if (isLogin) {
             redirect()
+            return
         }
 
         // 触发登录后才会尝试重定向

@@ -63,7 +63,7 @@ const ContentListTable = ({ data, onChangePublishState, ...props }) => {
                 <div className="text-sm">
                     <div>创建时间：{record.created_at}</div>
                     <div>更新时间：{record.updated_at}</div>
-                    {record.published_at && <div>发布时间：{record.published_at}</div>}
+                    <div>发布时间：{record.published_at || '-'}</div>
                 </div>
             )
         },
