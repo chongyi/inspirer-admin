@@ -1,10 +1,10 @@
-import { Button, message } from "antd"
-import { ReloadOutlined } from '@ant-design/icons'
+import { Button, message, Modal } from "antd"
+import { ReloadOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { useCallback, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { loadContentListAsync, selectContentList, refreshContentListAsync } from "../../app/content/contentListSlice"
 import ContentListTable from "./components/ContentListTable"
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import contentAPI from '../../app/content/api/content'
 
 const ContentList = () => {
@@ -15,6 +15,10 @@ const ContentList = () => {
     useEffect(() => {
         // 初始化
         dispatch(loadContentListAsync())
+    }, [])
+
+    const refreshContentList = useCallback(() => {
+        dispatch(refreshContentListAsync())
     }, [])
 
     const onTableChange = (pagination, _filters, _sorter, { action }) => {
@@ -39,9 +43,37 @@ const ContentList = () => {
         })
     }, [])
 
-    const refreshContentList = useCallback(() => {
-        dispatch(refreshContentListAsync())
+    const deleteContent = useCallback(record => {
+        Modal.confirm({
+            title: '删除前确认请确认',
+            icon: <ExclamationCircleOutlined />,
+            content: <>
+                <p>请确认是否要删除内容（删除后可在回收站找回）</p>
+                <p>
+                    <div className="font-bold">{record.title}</div>
+                    <div className="italic text-xs">ID: {record.id}</div>
+                </p>
+            </>,
+            onOk() {
+                contentAPI.deleteContent(record.id, false)
+                    .then(() => {
+                        message.success("删除成功")
+                        refreshContentList()
+                    })
+            },
+            onCancel() {
+            },
+        })
     }, [])
+
+    const operation = (record) => (
+        <>
+            <Link to={`/content/edit/${record.id}`}>编辑</Link>
+            {record.is_publish && <Button type="link" onClick={() => onChangePublishState(record.id, false)}>取消发布</Button>}
+            {!record.is_publish && <Button type="link" onClick={() => onChangePublishState(record.id, true)}>发布</Button>}
+            <Button icon={<DeleteOutlined />} danger type={"primary"} size={"small"} onClick={() => deleteContent(record)} />
+        </>
+    )
 
     return <>
         <div className="flex flex-col gap-4">
@@ -54,7 +86,7 @@ const ContentList = () => {
                 </div>
             </div>
             <div>
-                <ContentListTable onChange={onTableChange} onChangePublishState={onChangePublishState} {...list} />
+                <ContentListTable onChange={onTableChange} operation={operation} {...list} />
             </div>
         </div>
     </>

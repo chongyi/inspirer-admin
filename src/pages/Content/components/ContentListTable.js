@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useState } from "react"
 import { Badge, Button } from "antd"
 
-const ContentListTable = ({ data, onChangePublishState, ...props }) => {
+const ContentListTable = ({ data, operation, ...props }) => {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
     const onSelectChange = (newSelectedRowKeys) => {
@@ -71,15 +71,7 @@ const ContentListTable = ({ data, onChangePublishState, ...props }) => {
             key: 'operation',
             render: (_, record) => (
                 <>
-                    <Link to={`/content/edit/${record.id}`}>编辑</Link>
-                    {
-                        onChangePublishState && (
-                            <>
-                                {record.is_publish && <Button type="link" onClick={() => onChangePublishState(record.id, false)}>取消发布</Button>}
-                                {!record.is_publish && <Button type="link" onClick={() => onChangePublishState(record.id, true)}>发布</Button>}
-                            </>
-                        )
-                    }
+                    {operation(record)}
                 </>
             )
         }

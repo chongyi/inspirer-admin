@@ -9,6 +9,15 @@ export async function getContentList(pagination, params = {}) {
     })
 }
 
+export async function getDeletedContentList(pagination, params = {}) {
+    return await get('/api/security/deleted/content', {
+        params: {
+            ...pagination,
+            ...params
+        }
+    })
+}
+
 export async function getContent(id) {
     return await get(`/api/security/content/${id}`)
 }
@@ -37,12 +46,27 @@ export async function unpublishContent(id) {
     return await del(`/api/security/content/${id}/publish`)
 }
 
+export async function deleteContent(id, force_delete = false) {
+    return await del(`/api/security/content/${id}`, {
+        params: {
+            force_delete
+        }
+    })
+}
+
+export async function revertDeletedContent(id) {
+    return await del(`/api/security/deleted/content/${id}`)
+}
+
 export default {
     getContent,
     getContentList,
+    getDeletedContentList,
     updateContent,
     createContent,
     getContentServiceConfig,
     publishContent,
     unpublishContent,
+    deleteContent,
+    revertDeletedContent,
 }
