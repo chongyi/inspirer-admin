@@ -10,6 +10,7 @@ import ContentApplication from './pages/Content';
 import ContentList from './pages/Content/ContentList';
 import SystemApplication from './pages/System';
 import ContentEdit from './pages/Content/ContentEdit';
+import DeletedContentList from './pages/Content/DeletedContentList';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='content' element={<ContentApplication />}>
           <Route path='list' element={<ContentList />} />
           <Route path='create' element={<ContentEdit />} />
+          <Route path='deleted' element={<DeletedContentList />} />
           <Route path='edit/:contentId' element={<ContentEdit mode="edit" />} />
         </Route>
         <Route path='system' element={<SystemApplication />} />
