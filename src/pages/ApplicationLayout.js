@@ -1,5 +1,6 @@
 import { Menu, Layout } from 'antd'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { withPrefix } from '../utils';
 
 const { Content, Sider } = Layout;
 
@@ -8,7 +9,7 @@ const ApplicationLayout = ({ menuItems = [] }) => {
     const location = useLocation()
 
     const onMenuClick = ({ item, key }) => {
-        navigate(key)
+        navigate(withPrefix(key))
     }
 
     return (

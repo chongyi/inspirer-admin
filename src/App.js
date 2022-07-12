@@ -11,11 +11,13 @@ import ContentList from './pages/Content/ContentList';
 import SystemApplication from './pages/System';
 import ContentEdit from './pages/Content/ContentEdit';
 import DeletedContentList from './pages/Content/DeletedContentList';
+import { withPrefix } from './utils';
 
 function App() {
+  console.log(process.env.REACT_APP_PREFIX)
   return (
     <Routes>
-      <Route path='/' element={<MainLayout />}>
+      <Route path={withPrefix('/')} element={<MainLayout />}>
         <Route path='' element={<Home />} />
         <Route path='content' element={<ContentApplication />}>
           <Route path='list' element={<ContentList />} />
@@ -25,7 +27,7 @@ function App() {
         </Route>
         <Route path='system' element={<SystemApplication />} />
       </Route>
-      <Route path='/login' element={<Login />} />
+      <Route path={withPrefix('/login')} element={<Login />} />
     </Routes>
   );
 }

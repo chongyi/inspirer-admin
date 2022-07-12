@@ -6,6 +6,7 @@ import contentAPI from "../../app/content/api/content"
 import { useSelector, useDispatch } from "react-redux"
 import { loadContentServiceConfigAsync, selectContentConfigState } from "../../app/content/contentConfigSlice"
 import ContentEditor from "./components/ContentEditor"
+import { withPrefix } from "../../utils"
 
 const { TextArea } = Input
 
@@ -106,7 +107,7 @@ const ContentEdit = ({ mode = 'create' }) => {
                         if (currentMode == 'create') {
                             setCurrentMode('edit')
                             // 直接跳转即可
-                            navigate(`/content/edit/${res.id}`, { replace: true })
+                            navigate(withPrefix(`/content/edit/${res.id}`), { replace: true })
                         } else {
                             // 更新本地数据
                             setContentData(prev => {

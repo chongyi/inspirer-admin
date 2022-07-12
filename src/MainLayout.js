@@ -4,6 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useHeaderMenus } from './hooks/global';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLogin, updateProfileAsync } from './app/application/userSessionSlice';
+import { withPrefix } from './utils';
 
 const { Header } = Layout;
 
@@ -17,7 +18,7 @@ const MainLayout = () => {
     const checkLoginStatus = useCallback(() => {
         if (!isLogin) {
             message.error("登录状态失效，请重新登录")
-            navigate(`/login?to=${encodeURIComponent(location.pathname)}`)
+            navigate(withPrefix(`/login?to=${encodeURIComponent(location.pathname)}`))
             return false;
         }
         
@@ -43,7 +44,7 @@ const MainLayout = () => {
     }, [])
 
     const onMenuClick = useCallback((item) => {
-        navigate(item.item.props.link)
+        navigate(withPrefix(item.item.props.link))
     }, [])
 
     return <Layout className='h-screen'>

@@ -2,8 +2,11 @@ import axios from "axios"
 import { store } from "./app/store"
 import { message } from 'antd'
 import { logout } from "./app/application/userSessionSlice"
+import { withPrefix } from "./utils"
 
-const request = axios.create()
+const request = axios.create({
+    baseURL: process.env.REACT_APP_API_HOST
+})
 
 request.interceptors.request.use(config => {
     const { token } = store.getState().userSession
@@ -22,7 +25,7 @@ request.interceptors.response.use(resp => resp, error => {
                 store.dispatch(logout())
                 delete sessionStorage.accessToken
                 delete localStorage.accessToken
-                window.location.href = '/login'
+                window.location.href = withPrefix(`/login?to=${encodeURIComponent(window.location.pathname)}`)
                 break;
 
         }
