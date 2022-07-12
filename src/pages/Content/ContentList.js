@@ -6,6 +6,7 @@ import { loadContentListAsync, selectContentList, refreshContentListAsync } from
 import ContentListTable from "./components/ContentListTable"
 import { useNavigate, Link } from 'react-router-dom'
 import contentAPI from '../../app/content/api/content'
+import { withPrefix } from "../../utils"
 
 const ContentList = () => {
     const navigate = useNavigate()
@@ -68,7 +69,7 @@ const ContentList = () => {
 
     const operation = (record) => (
         <>
-            <Link to={`/content/edit/${record.id}`}>编辑</Link>
+            <Link to={withPrefix(`/content/edit/${record.id}`)}>编辑</Link>
             {record.is_publish && <Button type="link" onClick={() => onChangePublishState(record.id, false)}>取消发布</Button>}
             {!record.is_publish && <Button type="link" onClick={() => onChangePublishState(record.id, true)}>发布</Button>}
             <Button icon={<DeleteOutlined />} danger type={"primary"} size={"small"} onClick={() => deleteContent(record)} />
@@ -82,7 +83,7 @@ const ContentList = () => {
                     <Button icon={<ReloadOutlined />} onClick={() => refreshContentList()} />
                 </div>
                 <div>
-                    <Button type="primary" onClick={() => navigate('/content/create')} >创建内容</Button>
+                    <Button type="primary" onClick={() => navigate(withPrefix('/content/create'))} >创建内容</Button>
                 </div>
             </div>
             <div>
