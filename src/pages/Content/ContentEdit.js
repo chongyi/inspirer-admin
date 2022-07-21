@@ -59,7 +59,7 @@ const ContentEdit = ({ mode = 'create' }) => {
                 setEditorData(data.entity.data)
 
                 // update form field
-                form.resetFields()
+                form.setFieldsValue(data)
             })
         }
     }, [contentId, currentMode])
@@ -151,17 +151,17 @@ const ContentEdit = ({ mode = 'create' }) => {
                         <div className="sticky top-0">
                             <div className="h-[calc(100vh-80px)]">
                                 <div className="bg-white p-4 shadow ">
-                                    <Form layout="vertical" form={form} onFinish={onFormSubmit}>
-                                        <Form.Item label='标题' name='title' initialValue={contentData.title} rules={[{ required: true, message: '请输入内容标题' }]}>
+                                    <Form layout="vertical" form={form} initialValues={contentData} onFinish={onFormSubmit}>
+                                        <Form.Item label='标题' name='title' rules={[{ required: true, message: '请输入内容标题' }]}>
                                             <Input placeholder="内容的标题" />
                                         </Form.Item>
-                                        <Form.Item label='关键字' name='keywords' initialValue={contentData.keywords}>
+                                        <Form.Item label='关键字' name='keywords'>
                                             <Input placeholder="内容的关键词，用半角逗（,）号分割" />
                                         </Form.Item>
-                                        <Form.Item label='描述' name='description' initialValue={contentData.description}>
+                                        <Form.Item label='描述' name='description'>
                                             <TextArea placeholder="对该项内容的基本描述" />
                                         </Form.Item>
-                                        <Form.Item label='名称' name='name' initialValue={contentData.name}>
+                                        <Form.Item label='名称' name='name'>
                                             <Input placeholder="内容唯一名称，会用作路径名称" />
                                         </Form.Item>
                                     </Form>
