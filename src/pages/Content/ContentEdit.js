@@ -58,6 +58,7 @@ const ContentEdit = ({ mode = 'create' }) => {
                 setContentData(data)
                 setEditorData(data.entity.data)
 
+                // update form field
                 form.resetFields()
             })
         }
